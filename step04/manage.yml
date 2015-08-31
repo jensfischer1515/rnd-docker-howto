@@ -1,0 +1,17 @@
+backup:
+  image: ubuntu
+  command: tar cvzf /backup/data.tgz .
+  working_dir: /var/lib/mysql
+  volumes:
+    - /tmp:/backup
+  volumes_from:
+    - step04_data_1
+
+restore:
+  image: ubuntu
+  command: tar xvzf /backup/data.tgz
+  working_dir: /var/lib/mysql
+  volumes:
+    - /tmp:/backup
+  volumes_from:
+    - step04_data_1

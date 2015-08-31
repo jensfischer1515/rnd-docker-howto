@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Pragmatic Docker</title>
+
+		<meta name="description" content="A pragmatic introduction to Docker">
+		<meta name="author" content="Jens Fischer">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/beige.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- FontAwesome -->
+		<link rel="stylesheet" href="lib/css/font-awesome/css/font-awesome.min.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+
+
+			<!-- ===================================================================== -->
+			<!-- ===================================================================== -->
+			<!-- ===================================================================== -->
+
+				<section>
+					<h1>Pragmatic Docker</h1>
+					<h3>A 15 minutes introduction</h3>
+					<p>
+						<small>Jens Fischer <a href="http://twitter.com/jensfischerhh">@jensfischerhh</a></small>
+					</p>
+				</section>
+			<!-- ===================================================================== -->
+				<section>
+					<h2>What is Docker?</h2>
+
+					<div style="display: flex;">
+						<div style="flex:1;">
+							<img src="images/docker-logo.png" style="border: 1px; box-shadow:none;" />
+						</div>
+						<div style="flex:1;">
+							<p>
+								Virtualization on steroids!
+							</p>
+							<ul>
+								<li class="fragment">lightweight</li>
+								<li class="fragment">fast</li>
+								<li class="fragment">isolation</li>
+								<li class="fragment">predictability</li>
+								<li class="fragment">great ecosystem</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+			<!-- ===================================================================== -->
+				<section>
+					<h2>Where to get it?</h2>
+
+					<div class="fragment">
+						<h3>Linux <small>(Ubuntu style)</small></h3>
+
+						<pre><code data-trim class="bash">
+$ sudo apt-get update
+$ sudo apt-get install docker.io
+						</code></pre>
+					</div>
+
+					<div class="fragment">
+						<h3>Linux <small>(YOLO style)</small></h3>
+						<pre><code data-trim class="bash">
+$ curl -sSL https://get.docker.com/ | sh
+						</code></pre>
+					</div>
+
+					<div class="fragment">
+						<h3>Mac OS X</h3>
+						<pre><code data-trim class="bash">
+$ brew cask install virtualbox
+$ brew install docker-machine
+$ brew install docker
+						</code></pre>
+					</div>
+				</section>
+			<!-- ===================================================================== -->
+				<section>
+					<h2>Is it working?</h2>
+
+					<pre class="fragment"><code data-trim class="bash">
+$ docker run -i -t --rm hello-world
+					</code></pre>
+
+					<small class="fragment">
+						<table>
+							<thead>
+								<tr>
+									<th>Command</th>
+									<th>Meaning</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><code>docker run</code></td>
+									<td>create and run a new container</td>
+								</tr>
+								<tr>
+									<td><code>-i</code></td>
+									<td>run interactive</td>
+								</tr>
+								<tr>
+									<td><code>-t</code></td>
+									<td>allocate pseudo TTY</td>
+								</tr>
+								<tr>
+									<td><code>--rm</code></td>
+									<td>remove container after exiting</td>
+								</tr>
+								<tr>
+									<td><code>hello-world</code></td>
+									<td>docker image name</td>
+								</tr>
+							</tbody>
+						</table>
+					</small>
+
+					<pre class="fragment"><code data-trim class="bash">
+Unable to find image 'hello-world:latest' locally
+Pulling repository docker.io/library/hello-world
+af340544ed62: Download complete
+535020c3e8ad: Download complete
+Status: Downloaded newer image for hello-world:latest
+
+Hello from Docker.
+This message shows that your installation appears to be working correctly.
+ 					</code></pre>
+
+				</section>
+			<!-- ===================================================================== -->
+				<section>
+					<h2>Important commands</h2>
+
+					<small>
+						<table>
+							<thead>
+								<tr>
+									<th>Command</th>
+									<th>Description</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="fragment">
+									<td><code>docker help</code></td>
+									<td>show a list of all commands</td>
+								</tr>
+								<tr class="fragment">
+									<td><code>docker run &lt;IMAGE&gt;</code></td>
+									<td>create and run a new container from &lt;IMAGE&gt;</td>
+								</tr>
+								<tr class="fragment">
+									<td><code>docker stop &lt;CONTAINER&gt;</code></td>
+									<td>stop a running &lt;CONTAINER&gt;</td>
+								</tr>
+								<tr class="fragment">
+									<td><code>docker start &lt;CONTAINER&gt;</code></td>
+									<td>restart a stopped &lt;CONTAINER&gt;</td>
+								</tr>
+								<tr class="fragment">
+									<td><code>docker logs &lt;CONTAINER&gt;</code></td>
+									<td>show log output of &lt;CONTAINER&gt;</td>
+								</tr>
+								<tr class="fragment">
+									<td><code>docker ps </code></td>
+									<td>list all running containers</td>
+								</tr>
+								<tr class="fragment">
+									<td><code>docker rm &lt;CONTAINER&gt;</code></td>
+									<td>remove a &lt;CONTAINER&gt;</td>
+								</tr>
+								<tr class="fragment">
+									<td><code>docker images</code></td>
+									<td>list all available images</td>
+								</tr>
+								<tr class="fragment">
+									<td><code>docker rmi &lt;IMAGE&gt;</code></td>
+									<td>remove an &lt;IMAGE&gt;</td>
+								</tr>
+								<tr class="fragment">
+									<td><code>docker build &lt;PATH&gt;</code></td>
+									<td>compile a new image named &lt;PATH&gt;</td>
+								</tr>
+							</tbody>
+						</table>
+					</small>
+				</section>
+			<!-- ===================================================================== -->
+				<section>
+					<h2>Docker Lifecycle</h2>
+
+					<ul>
+						<li class="fragment">
+							edit <code>Dockerfile</code>
+							<ul>
+								<li>extend existing base image</li>
+								<li>add desired software</li>
+							</ul>
+						</li>
+						<li class="fragment">create local image
+							<ul>
+								<li><pre style="margin: 0px;"><code class="bash">docker build -t epages/rnd-day .</code></pre></li>
+							</ul>
+						</li>
+						<li class="fragment">share local image in remote repository
+							<ul>
+								<li><pre style="margin: 0px;"><code class="bash">docker push epages/rnd-day</code></pre></li>
+							</ul>
+						</li>
+						<li class="fragment">download image from repository
+							<ul>
+								<li><pre style="margin: 0px;"><code class="bash">docker pull epages/rnd-day</code></pre></li>
+							</ul>
+						</li>
+						<li class="fragment">instantiate container from image and execute
+							<ul>
+								<li><pre style="margin: 0px;"><code class="bash">docker run -d epages/rnd-day</code></pre></li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+			<!-- ===================================================================== -->
+				<section>
+					<h2><a href="https://docs.docker.com/reference/builder/">Dockerfile</a></h2>
+
+					<pre><code data-trim class="bash">
+FROM debian
+RUN apt-get install -y apache2
+ADD httpd.conf /etc/apache2/httpd.conf
+VOLUME ["/var/www", "/var/log/apache2"]
+EXPOSE 80 443
+ENTRYPOINT ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
+					</code></pre>
+
+					<small>
+						<table>
+							<thead>
+								<tr>
+									<th>Command</th>
+									<th>Description</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="fragment">
+									<td><code>FROM</code></td>
+									<td>extend from base image</td>
+								</tr>
+								<tr class="fragment">
+									<td><code>RUN</code></td>
+									<td>execute command and store results</td>
+								</tr>
+								<tr class="fragment">
+									<td><code>ADD</code></td>
+									<td>include local content</td>
+								</tr>
+								<tr class="fragment">
+									<td><code>VOLUME</code></td>
+									<td>create mount points</td>
+								</tr>
+								<tr class="fragment">
+									<td><code>EXPOSE</code></td>
+									<td>listen on network ports</td>
+								</tr>
+								<tr class="fragment">
+									<td><code>ENTRYPOINT</code></td>
+									<td>Command for executing container</td>
+								</tr>
+							</tbody>
+						</table>
+					</small>
+				</section>
+			<!-- ===================================================================== -->
+				<section>
+					<h2>Layered filesystem</h2>
+
+					<div style="display: flex;">
+						<div style="flex:1;">
+							<img src="images/docker-filesystems-multilayer.png" style="border: 1px; box-shadow:none;" />
+						</div>
+						<div style="flex:1;">
+							<ul>
+								<li class="fragment">read-write layer on top</li>
+								<li class="fragment">read-only layer below</li>
+								<li class="fragment"><code>ADD</code> creates a new layer</li>
+								<li class="fragment"><code>ADD</code> gets cached</li>
+								<li class="fragment">transfer only layer diffs</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+			<!-- ===================================================================== -->
+				<section>
+					<h2>Networking</h2>
+
+					<ul>
+						<li class="fragment">container has internal network</li>
+						<li class="fragment">manually map exposed ports to host <pre><code class="bash">$ docker run -p &lt;HOST_PORT&gt;:&lt;CONTAINER_PORT&gt;</code></pre></li>
+						<li class="fragment">dynamically map all exposed ports to host <pre><code class="bash">$ docker run -P</code></pre></li>
+						<li class="fragment">link containers using names
+							<pre><code data-trim class="bash">
+$ docker run -d --name db my/database
+$ docker run -d -P --link db:db my/webapp
+							</code></pre>
+						</li>
+					</ul>
+				</section>
+			<!-- ===================================================================== -->
+				<section>
+					<h2>Persistent data</h2>
+					<ul>
+						<li class="fragment">persist changes in running container to new image <pre><code class="bash">$ docker commit &lt;CONTAINER&gt;</code></pre></li>
+
+						<li class="fragment">create named data volume container <pre><code class="bash">$ docker run --name mysql-data -v /var/lib/mysql busybox true</code></pre></li>
+						<li class="fragment">use named data volume container <pre><code class="bash">$ docker run -d --volumes-from mysql-data -p 3306:3306 mysql</code></pre></li>
+					</ul>
+				</section>
+			<!-- ===================================================================== -->
+				<section>
+					<h2>best practices</h2>
+
+					<ul>
+						<li class="fragment">only one process per container</li>
+						<li class="fragment">log to STDOUT</li>
+						<li class="fragment">don't fix a running container
+							<ul>
+								<li>delete container</li>
+								<li>fix <code>Dockerfile</code></li>
+								<li>create new container</li>
+							</ul>
+						</li>
+						<li class="fragment">minimize layers
+							<ul>
+								<li>understand caching</li>
+								<li>use multi-line arguments for <code>RUN</code></li>
+							</ul>
+						</li>
+						<li class="fragment">don't <code>apt-get upgrade</code></li>
+					</ul>
+				</section>
+			<!-- ===================================================================== -->
+				<section>
+					<h2>Ecosystem</h2>
+
+					<ul>
+						<li class="fragment"><a href="https://coreos.com/">CoreOS</a>: container OS</li>
+						<li class="fragment"><a href="http://www.projectatomic.io/">Project Atomic</a>: container OS</li>
+						<li class="fragment"><a href="http://docs.docker.com/machine/">Docker Machine</a>: container provisioning</li>
+						<li class="fragment"><a href="http://docs.docker.com/compose/">Docker Compose</a>: container orchestration</li>
+						<li class="fragment"><a href="http://kubernetes.io/">Kubernetes</a>: container orchestration</li>
+						<li class="fragment"><a href="http://docs.docker.com/swarm/">Docker Swarm</a>: container clustering</li>
+						<li class="fragment"><a href="http://mesos.apache.org/">Apache Mesos</a>: container clustering</li>
+						<li class="fragment"><a href="https://clusterhq.com/">ClusterHQ</a>: container storage</li>
+						<li class="fragment"><a href="https://github.com/zettio/weave">Weave</a>: container networking</li>
+						<li class="fragment"><a href="http://deis.io/">Deis</a>: container PaaS</li>
+					</ul>
+				</section>
+			<!-- ===================================================================== -->
+				<section>
+					<img class="stretch" src="images/docker-all-the-things.png" />
+				</section>
+			<!-- ===================================================================== -->
+				<section>
+					<h2>Step #1: Wordpress on MySQL</h2>
+
+					<ol>
+						<li class="fragment">use <a href="https://hub.docker.com/_/mysql/" target="_blank">official MySQL image</a>
+						<pre><code data-trim class="bash">
+docker run \
+  --detach=true \
+  --name=db \
+  --env="MYSQL_ROOT_PASSWORD=root" \
+  --env="MYSQL_DATABASE=wordpress" \
+  mysql
+						</code></pre></li>
+
+						<li class="fragment">use <a href="https://hub.docker.com/_/wordpress/" target="_blank">official Wordpress image</a> 
+						<pre><code data-trim class="bash">
+docker run \
+  --detach=true \
+  --name=web \
+  --link db:mysql \
+  --publish 80:80 \
+  wordpress
+  						</code></pre></li>
+					</ol>
+				</section>
+			<!-- ===================================================================== -->
+				<section>
+					<h2>Step #2: Turbopress customization</h2>
+
+					<ol>
+						<li class="fragment">use <a href="https://hub.docker.com/_/mysql/" target="_blank">official MySQL image</a>
+
+						<li class="fragment">prepare <a href="../step02/Dockerfile" target="_blank"><code>Dockerfile</code></a></li>
+
+						<li class="fragment">build customization
+						<pre><code data-trim class="bash">
+docker build \
+  --no-cache=true \
+  -t "rnd/turbopress:latest" \
+  .
+  						</code></pre></li>
+
+						<li class="fragment">use local image</a>
+						<pre><code data-trim class="bash">
+docker run \
+  --detach=true \
+  --name=web \
+  --link db:mysql \
+  --publish 80:80 \
+  rnd/turbopress
+  						</code></pre></li>
+					</ol>
+				</section>
+			<!-- ===================================================================== -->
+				<section>
+					<h2>Step #3: orchestrated containers</h2>
+
+					<ol>
+						<li class="fragment">prepare <a href="../step03/docker-compose.yml" target="_blank"><code>docker-compose.yml</code></a></li>
+
+						<li class="fragment">build customization
+						<pre><code data-trim class="bash">
+docker-compose build --no-cache
+  						</code></pre></li>
+
+						<li class="fragment">run orchestrated containers
+						<pre><code data-trim class="bash">
+docker-compose up -d
+  						</code></pre></li>
+					</ol>
+				</section>
+			<!-- ===================================================================== -->
+				<section>
+					<h2>Step #4: switch to MariaDB</h2>
+
+					<ol>
+						<li class="fragment">prepare <a href="../step04/docker-compose.yml" target="_blank"><code>docker-compose.yml</code></a></li>
+
+						<li class="fragment">build customization
+						<pre><code data-trim class="bash">
+docker-compose build --no-cache
+  						</code></pre></li>
+
+						<li class="fragment">run orchestrated containers
+						<pre><code data-trim class="bash">
+docker-compose up -d
+  						</code></pre></li>
+
+						<li class="fragment">prepare <a href="../step04/manage.yml" target="_blank"><code>manage.yml</code></a></li>
+
+						<li class="fragment">backup/restore data
+						<pre><code data-trim class="bash">
+docker-compose -f manage.yml run --rm backup
+docker-compose -f manage.yml run --rm restore
+  						</code></pre></li>
+					</ol>
+				</section>
+			<!-- ===================================================================== -->
+				<section>
+					<h2>Step #5: load-balance scaled containers</h2>
+
+					<ol>
+						<li class="fragment">prepare <a href="../step05/docker-compose.yml" target="_blank"><code>docker-compose.yml</code></a></li>
+
+						<li class="fragment">build customization
+						<pre><code data-trim class="bash">
+docker-compose build --no-cache
+  						</code></pre></li>
+
+						<li class="fragment">run single web container
+						<pre><code data-trim class="bash">
+docker-compose up -d web
+  						</code></pre></li>
+
+						<li class="fragment">scale web container
+						<pre><code data-trim class="bash">
+docker-compose scale web=10
+  						</code></pre></li>
+
+						<li class="fragment">run load-balancer
+						<pre><code data-trim class="bash">
+docker-compose up -d lb
+  						</code></pre></li>
+					</ol>
+
+					<div class="fragment"><small>See original <a href="http://eyenx.ch/2015/04/18/loadbalancing-containers-with-docker-compose/" target="_blank">blog post</a> by <a href="https://twitter.com/eyenx" target="_blank">@eyenx</a></small></div>
+				</section>
+			<!-- ===================================================================== -->
+				<section>
+					<h2>Step #6: cache load-balanced responses</h2>
+
+					<ol>
+						<li class="fragment">prepare <a href="../step06/docker-compose.yml" target="_blank"><code>docker-compose.yml</code></a></li>
+
+						<li class="fragment">build customization
+						<pre><code data-trim class="bash">
+docker-compose build --no-cache
+  						</code></pre></li>
+
+						<li class="fragment">run single web container
+						<pre><code data-trim class="bash">
+docker-compose up -d web
+  						</code></pre></li>
+
+						<li class="fragment">scale web container
+						<pre><code data-trim class="bash">
+docker-compose scale web=10
+  						</code></pre></li>
+
+						<li class="fragment">run cache in front of load-balancer
+						<pre><code data-trim class="bash">
+docker-compose up -d cache
+  						</code></pre></li>
+					</ol>
+				</section>
+			<!-- ===================================================================== -->
+			<!-- ===================================================================== -->
+			<!-- ===================================================================== -->
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

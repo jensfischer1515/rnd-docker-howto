@@ -1,0 +1,50 @@
+data:
+  image: busybox
+  command: /bin/true
+  volumes:
+    - /var/lib/mysql
+    - /var/www/html
+
+db:
+  image: mariadb
+  volumes_from:
+    - data
+  environment:
+    MYSQL_ROOT_PASSWORD: root
+    MYSQL_DATABASE: wordpress
+  mem_limit: 512m
+
+web:
+  build: web
+  links:
+    - db:mysql
+  volumes_from:
+    - data
+  expose:
+    - "80"
+  mem_limit: 256m
+
+lb:
+  image: tutum/haproxy
+  links:
+    - web
+  expose:
+    - "80"
+  ports:
+    - "81:1936"
+  environment:
+    OPTION: httpchk GET / HTTP/1.1\r\nHost:\ web
+    HEALTH_CHECK: check inter 3000 rise 1 fall 2
+  mem_limit: 128m
+
+cache:
+  build: cache
+  links:
+    - lb:backend-host
+  ports:
+    - "80:80"
+    - "23:23"
+  environment:
+    VCL_CONFIG: /etc/varnish/wordpress.vcl
+    VARNISHD_PARAMS: -T 0.0.0.0:23 -p default_ttl=3600 -p default_grace=3600
+  mem_limit: 128m

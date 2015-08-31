@@ -1,0 +1,22 @@
+data:
+  image: busybox
+  command: /bin/true
+  volumes:
+    - /var/lib/mysql
+
+db:
+  image: mariadb
+  volumes_from:
+    - data
+  environment:
+    MYSQL_ROOT_PASSWORD: root
+    MYSQL_DATABASE: wordpress
+  mem_limit: 512m
+
+web:
+  build: web
+  links:
+    - db:mysql
+  ports:
+    - "80:80"
+  mem_limit: 256m
